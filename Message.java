@@ -1,4 +1,4 @@
-package clavardage;
+package clavard;
 
 import java.util.Date;
 

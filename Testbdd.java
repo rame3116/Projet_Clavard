@@ -1,4 +1,4 @@
-package clavardage;
+package clavard;
 
 import java.util.ArrayList;
 //import java.sql.ResultSet;
@@ -8,7 +8,7 @@ public class Testbdd {
 
 	public static void main(String[] args) {
 		//InterfaceGraphique IG = new InterfaceGraphique();
-		BDD connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/clavardage/src/clavardage/messagerie/POO/clavardage/clavardage/src/clavardage/Clavard.db");
+		BDD connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/Projet_Clavard/Clavard.db");
         connexion.connect();
         Date date = new Date();
         String pseudo1 = "Mehdi";

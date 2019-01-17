@@ -1,4 +1,4 @@
-package clavardage;
+package clavard;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -51,7 +51,7 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 		System.out.println(ListCo);
 		nbCo = ListCo.size();
 		recepteur = recept;
-		connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/clavardage/src/clavardage/messagerie/POO/clavardage/clavardage/src/clavardage/Clavard.db");
+		connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/Projet_Clavard/Clavard.db");
         connexion.connect();
 		initialize();
 	}

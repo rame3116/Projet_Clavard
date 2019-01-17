@@ -1,4 +1,4 @@
-package clavardage;
+package clavard;
 
 
 public class InterfaceGraphique {

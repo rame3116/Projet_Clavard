@@ -1,4 +1,4 @@
-package clavardage;
+package clavard;
 
 //import java.net.InetAddress;
 //import java.net.UnknownHostException;

@@ -1,4 +1,4 @@
-package clavardage;
+package clavard;
 
 import java.awt.Color;
 import java.awt.Font;
