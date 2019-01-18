@@ -8,7 +8,15 @@ public class Testbdd {
 
 	public static void main(String[] args) {
 		//InterfaceGraphique IG = new InterfaceGraphique();
-		BDD connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/Projet_Clavard/Clavard.db");
+		String mess = "I'll be watching you 'k 'o";
+		System.out.println("Dans la fonction ecrire, avant le chmgt : "+mess);
+    	String messrap = mess.replace("'", "\\\\");
+    	System.out.println("Dans la fonction ecrire, après le chmgt : "+messrap);
+    	String rechange = messrap.replace("\\\\","'");
+    	System.out.println("Dans la fonction ecrire, après le rechmgt : "+rechange);
+		
+		
+		/*BDD connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/Projet_Clavard/Clavard.db");
         connexion.connect();
         Date date = new Date();
         String pseudo1 = "Mehdi";
@@ -32,7 +40,7 @@ public class Testbdd {
 			//System.out.println("Aucun message");
 		}
         connexion.close();
-
+*/
 	}
 
 }

@@ -157,21 +157,22 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 		TextArea.setEditable(false);
 		JScrollPane scroll = new JScrollPane(TextArea);
 		
-		ArrayList<Message> liste_envoyes;
-		ArrayList<Message> liste_recus;
-		l_messages = new ArrayList<String>();
-		liste_envoyes = connexion.lire_mess(login, recepteur);
-		for (Message obj : liste_envoyes) {
-			
-			//listModel.addElement(tabLabel.get(j));
-			l_messages.add("Moi : "+obj.contenu);
-		}
 		
-		liste_recus = connexion.lire_mess(recepteur, login);
-		System.out.println(liste_recus);
-		for (Message mess : liste_recus) {
-			l_messages.add(recepteur+" : "+mess.contenu);
+		l_messages = new ArrayList<String>();
+		ArrayList<Message> liste_bdd = connexion.lire_mess(login, recepteur);
+		for (Message obj : liste_bdd) {
+			if(obj.emetteur.equals(login)) {
+				l_messages.add("Moi : "+obj.contenu);
+			}
+			else {
+				l_messages.add(recepteur+" : "+obj.contenu);
+			}
+			//listModel.addElement(tabLabel.get(j));
+			
 		}
+		System.out.println("l_messages "+l_messages);
+		System.out.println("ArrayList<Messages> : "+liste_bdd);
+		
 		
 		for (String str : l_messages) {
 			System.out.println(str);
@@ -241,7 +242,7 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 
 		//	j++;
 	//	}
-		// QUAND IL Y A // BIEN AVANT LE TEXTE C'EST QUE CA FAIT PARTI DU CODE (ECLIPSE A PAS GZEZ LES COMMENTAIRES
+		// QUAND IL Y A // BIEN AVANT LE TEXTE C'EST QUE CA FAIT PARTI DU CODE (ECLIPSE A PAS GÉRÉ LES COMMENTAIRES)
 	}
 
 
@@ -249,13 +250,16 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 	public void envoi(String mess) {
 		/*écriture dans la base de données et refresh ?
 		 écrire BDD */
-		
+		if(mess.isEmpty()) {
+		}
+		else {
 		Date date=new Date();
 		connexion.ecrire(login, recepteur, date, mess);
 		TextArea.append("Moi : "+mess+"\n");
 		textField.setText("");
 		
 		//connexion.close();
+		}
 	}
    
 	@Override

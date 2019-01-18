@@ -36,9 +36,9 @@ public class BDD {
         }
     }
     public ArrayList<Message> lire_mess(String login_emet,String login_recept) throws ParseException {
-    	String emereplaced = login_emet.replaceAll("'", "\\\\'");
-    	String receplaced = login_recept.replaceAll("'", "\\\\'");
-    	ResultSet resultSet = query("SELECT date,mess FROM messages WHERE loginemetteur = '"+emereplaced+"' AND loginrecepteur = '"+receplaced+"'");
+    	String emereplaced = login_emet.replace("'", "\\\\");
+    	String receplaced = login_recept.replace("'", "\\\\");
+    	ResultSet resultSet = query("SELECT * FROM messages WHERE (loginemetteur = '"+emereplaced+"' AND loginrecepteur = '"+receplaced+"') OR (loginemetteur = '"+receplaced+"' AND loginrecepteur = '"+emereplaced+"')");
     	
     	ArrayList<Message> liste = new ArrayList<Message>();
     	
@@ -47,9 +47,13 @@ public class BDD {
             	//Créer une liste (map ?), mettre tous les messages dedans et envoyer la liste
             	String strdate = resultSet.getString("date");
             	String contenu = resultSet.getString("mess");
-            	String creplaced=contenu.replaceAll("\\\\'", "'");
+            	String loem=resultSet.getString("loginemetteur");
+               	String lore=resultSet.getString("loginrecepteur");
+               	String loemreplaced=loem.replace("\\\\", "'");
+               	String lorereplaced=lore.replace("\\\\", "'");
+            	String creplaced=contenu.replace("\\\\", "'");
             	Date date=new SimpleDateFormat("dd-MM-yyyy hh:mm:ss").parse(strdate);
-            	Message mess=new Message(login_emet,login_recept,date,creplaced);
+            	Message mess=new Message(loemreplaced,lorereplaced,date,creplaced);
             	liste.add(mess);
                 //System.out.println("Le "+resultSet.getString("date")+" : "+resultSet.getString("mess"));
             }
@@ -62,10 +66,13 @@ public class BDD {
     public void ecrire(String login_emet,String login_recept,Date date,String mess) {
     	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");  
     	String strDate = dateFormat.format(date); 
-    	login_emet.replaceAll("'", "\\\\'");
-    	login_recept.replaceAll("'", "\\\\'");
-    	mess.replace("'", "\\'");
-    	ResultSet result = query("INSERT INTO messages(loginemetteur,loginrecepteur, date, mess) VALUES ( '" +login_emet+"','"+login_recept+"','"+strDate+"','"+mess+"')");
+    	String emetrplcd = login_emet.replace("'", "\\\\");
+    	String receptrplcd = login_recept.replace("'", "\\\\");
+    	
+    	String messrplcd = mess.replace("'", "\\\\");
+    	
+
+    	query("INSERT INTO messages(loginemetteur,loginrecepteur, date, mess) VALUES ( '" +emetrplcd+"','"+receptrplcd+"','"+strDate+"','"+messrplcd+"')");
     	
     }
     
