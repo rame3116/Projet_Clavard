@@ -156,6 +156,7 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 		TextArea = new JTextArea();
 		TextArea.setEditable(false);
 		JScrollPane scroll = new JScrollPane(TextArea);
+		scroll.setBounds(12, 13, 696, 357);
 		
 		
 		l_messages = new ArrayList<String>();
@@ -185,13 +186,13 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 			    TextArea.append(str+"\n");
 			//scrollPane_2.add(tabTextArea.get(j), j);
 			     TextArea.setBounds(12, 13, 696, 357);
-			     panel_4.add(TextArea);
+			     
 			
 
 			j++;
 		}
 		
-		
+		scroll.setViewportView(TextArea);
 		panel_4.add(scroll);
 		
 		
