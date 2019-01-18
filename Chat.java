@@ -22,10 +22,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import java.awt.GridLayout;
+//import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
-import javax.swing.BoxLayout;
+import java.awt.Insets;
+//import javax.swing.BoxLayout;
+//import java.awt.SystemColor;
 
 public class Chat implements ActionListener, MouseListener, KeyListener{
 
@@ -36,8 +38,8 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 	private JTextField textField;
 	private String recepteur;
 	private BDD connexion;
-	private ArrayList<JTextArea> tabTextArea = new ArrayList<JTextArea>();
-	private int j=0;
+	//private ArrayList<JTextArea> tabTextArea = new ArrayList<JTextArea>();
+	//private int j=0;
 	ArrayList<String> l_messages; 
 	JTextArea TextArea;
 	JPanel panel_4;
@@ -50,7 +52,7 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 		ListCo = ctrl.getListeCo();
 		System.out.println(ListCo);
 		nbCo = ListCo.size();
-		recepteur = recept;
+		//recepteur = recept;
 		connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/Projet_Clavard/Clavard.db");
         connexion.connect();
 		initialize();
@@ -142,6 +144,8 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 		panel_3.add(scrollPane_1);
 		
 		textField = new JTextField();
+		textField.setMargin(new Insets(2, 10, 2, 2));
+		textField.setBorder(null);
 		scrollPane_1.setViewportView(textField);
 		textField.addKeyListener(this);
 		textField.setColumns(10);
@@ -154,6 +158,9 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 				
 		
 		TextArea = new JTextArea();
+		TextArea.setBorder(null);
+		TextArea.setFont(new Font("Nirmala UI", Font.PLAIN, 14));
+		TextArea.setBackground(new Color(240, 240, 240));
 		TextArea.setEditable(false);
 		JScrollPane scroll = new JScrollPane(TextArea);
 		scroll.setBounds(12, 13, 696, 357);
@@ -189,7 +196,7 @@ public class Chat implements ActionListener, MouseListener, KeyListener{
 			     
 			
 
-			j++;
+			//j++;
 		}
 		
 		scroll.setViewportView(TextArea);

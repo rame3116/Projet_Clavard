@@ -1,49 +1,61 @@
 package clavard;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Date;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.JScrollBar;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.Component;
-import java.awt.Cursor;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+//import java.awt.GridLayout;
+import javax.swing.JTextField;
+import javax.swing.JTextArea;
+import java.awt.Insets;
+//import javax.swing.BoxLayout;
+//import java.awt.SystemColor;
 
-public class Connecte implements ActionListener, MouseListener {
+public class Connecte implements ActionListener, MouseListener, KeyListener {
 	private JFrame frmConnecte;
 	int nbCo;
 	private String login;
 	private ArrayList<String> ListCo;
-	private JList list;
-	//private ArrayList<JLabel> tabLabel = new ArrayList<JLabel>();
+	private JTextField textField;
+	private String recepteur;
+	private BDD connexion;
+	//private ArrayList<JTextArea> tabTextArea = new ArrayList<JTextArea>();
 	//private int j=0;
+	ArrayList<String> l_messages; 
+	JTextArea TextArea;
+	JPanel panel_1;
+	JLabel lblNewLabel_3;
+	JPanel panel_3;
+	JPanel panel_4;
+	JList list;
 	
 	
 	public Connecte(String log) {
 		login = log;
 		Controller ctrl = new Controller();
 		ListCo = ctrl.getListeCo();
-		//System.out.println(ListCo);
+		System.out.println(ListCo);
 		nbCo = ListCo.size();
+		connexion = new BDD("C:/Users/Mehdi/Desktop/INSA/4IR/POO/Projet_Clavard/Clavard.db");
+        connexion.connect();
 		initialize();
 	}
 	
@@ -115,7 +127,7 @@ public class Connecte implements ActionListener, MouseListener {
 		
 		
 		
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
 		panel_1.setBorder(null);
 		panel_1.setBackground(new Color(0, 0, 205));
 		panel_1.setBounds(0, 0, 835, 673);
@@ -127,16 +139,126 @@ public class Connecte implements ActionListener, MouseListener {
 		lblNewLabel_1.setFont(new Font("Book Antiqua", Font.PLAIN, 18));
 		lblNewLabel_1.setBounds(22, 13, 301, 23);
 		panel_1.add(lblNewLabel_1);
+		
+		lblNewLabel_3 = new JLabel();
+		lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
+		lblNewLabel_3.setForeground(Color.WHITE);
+		lblNewLabel_3.setFont(new Font("Book Antiqua", Font.PLAIN, 17));
+		lblNewLabel_3.setBounds(282, 65, 306, 33);
+		panel_1.add(lblNewLabel_3);
+		lblNewLabel_3.setVisible(false);
+		
+		panel_3 = new JPanel();
+		panel_3.setBackground(new Color(0, 0, 205));
+		panel_3.setBounds(62, 124, 773, 517);
+		panel_1.add(panel_3);
+		panel_3.setLayout(null);
+		
+		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.setBounds(637, 400, 97, 25);
+		btnEnvoyer.addActionListener(this);
+		panel_3.add(btnEnvoyer);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(12, 400, 597, 38);
+		panel_3.add(scrollPane_1);
+		
+		textField = new JTextField();
+		textField.setMargin(new Insets(2, 10, 2, 2));
+		textField.setBorder(null);
+		scrollPane_1.setViewportView(textField);
+		textField.addKeyListener(this);
+		textField.setColumns(10);
+		
+		panel_4 = new JPanel();
+		panel_4.setBounds(12, 0, 720, 383);
+		panel_3.add(panel_4);
+		panel_4.setLayout(null);
+		
+				
+		
+		TextArea = new JTextArea();
+		TextArea.setBorder(null);
+		TextArea.setFont(new Font("Nirmala UI", Font.PLAIN, 14));
+		TextArea.setBackground(new Color(240, 240, 240));
+		TextArea.setEditable(false);
+		JScrollPane scroll = new JScrollPane(TextArea);
+		scroll.setBounds(12, 13, 696, 357);
+		
+		
+		
+		
+		scroll.setViewportView(TextArea);
+		panel_4.add(scroll);
+		panel_3.setVisible(false);
+		
 		frmConnecte.setTitle("Connecté");
 		frmConnecte.setVisible(true);
 	}
 
-	
+	public void afficheChat() throws ParseException {
+		TextArea.setText("");
+		l_messages = new ArrayList<String>();
+		ArrayList<Message> liste_bdd = connexion.lire_mess(login, recepteur);
+		for (Message obj : liste_bdd) {
+			if(obj.emetteur.equals(login)) {
+				l_messages.add("Moi : "+obj.contenu);
+			}
+			else {
+				l_messages.add(recepteur+" : "+obj.contenu);
+			}
+			//listModel.addElement(tabLabel.get(j));
+			
+		}
+		System.out.println("l_messages "+l_messages);
+		System.out.println("ArrayList<Messages> : "+liste_bdd);
+		
+		
+		for (String str : l_messages) {
+			System.out.println(str);
+			/*tabTextArea.add(new JTextArea(str)) ;
+			tabTextArea.get(j).setEditable(false);*/
+			
+			//tabTextArea.get(j).setForeground(Color.WHITE);
+			//tabTextArea.get(j).setText(str);
+			
+			    TextArea.append(str+"\n");
+			//scrollPane_2.add(tabTextArea.get(j), j);
+			     TextArea.setBounds(12, 13, 696, 357);
+			     
+			
 
+			//j++;
+		}
+		
+		lblNewLabel_3.setText("Discussion avec "+recepteur);
+		lblNewLabel_3.setVisible(true);
+		panel_3.setVisible(true);
+		
+		
+		
+	}
+
+   
+	public void envoi(String mess) {
+		/*écriture dans la base de données et refresh ?
+		 écrire BDD */
+		if(mess.isEmpty()) {
+		}
+		else {
+		Date date=new Date();
+		connexion.ecrire(login, recepteur, date, mess);
+		TextArea.append("Moi : "+mess+"\n");
+		textField.setText("");
+		
+		//connexion.close();
+		}
+	}
    
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
+		envoi(this.textField.getText());
 		
 	}
 
@@ -169,19 +291,44 @@ public class Connecte implements ActionListener, MouseListener {
 	}
 
 
+
+
+
+	@Override
+	public void keyPressed(KeyEvent ke) {
+		// TODO Auto-generated method stub
+		if (ke.getKeyCode() == 10) {
+			envoi(this.textField.getText());
+		}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		String s = (String) list.getSelectedValue();
+		
 		 if (e.getClickCount() == 2) {
-	        	
-	        	try {
-					new Chat(login,s);
-					frmConnecte.setVisible(false);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			 recepteur = (String) list.getSelectedValue();
+			 try {
+				 //panel_3.setVisible(false);
+				afficheChat();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	        }
 	}
 }

@@ -120,6 +120,7 @@ public class Accueil implements ActionListener, KeyListener{
 		else {
 			new Connecte(log);
 			frmAccueil.setVisible(false);
+					
 		}
 	}
 	
